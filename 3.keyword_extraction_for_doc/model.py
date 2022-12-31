@@ -44,6 +44,12 @@ class modelWithPooling(nn.Module):
         # [batch_size, src_token, embed_size]
         attention_mask = kwargs["attention_mask"]
 
+        for i in range(attention_mask.size(0)):
+            # x = attention mask 1에 포함 된 마지막 index
+            x = (attention_mask[i] == 1).nonzero(as_tuple=True)[0][-1]
+            # attention_mask[i][0] = 0 # [CLS] = 0
+            attention_mask[i][x] = 0  # [SEP] = 0
+
         last_hidden_state = features["last_hidden_state"]
 
         if self.pooling_type == "cls":
@@ -75,7 +81,7 @@ class modelWithPooling(nn.Module):
             input_mask_expanded = (
                 attention_mask.unsqueeze(-1).expand(last_hidden_state.size()).float()
             )
-            # padding인 경우 0 아닌 경우 1곱한 뒤 총합 = [batch_size, embed_size]
+
             sum_embeddings = torch.sum(last_hidden_state * input_mask_expanded, 1)
 
             # 평균 내기위한 token 개수
