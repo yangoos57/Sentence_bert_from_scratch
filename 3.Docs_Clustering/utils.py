@@ -10,7 +10,7 @@ electra를 활용해 sentence embedding, Doc embedding을 수행하기 위한 �
 """
 
 
-def merge_series_to_str(series: pd.Series) -> str:
+def merge_series_to_str(series: pd.Series, print_on=False) -> str:
 
     """
     pd.Series 데이터를 하나의 str으로 통합하는 함수
@@ -21,6 +21,39 @@ def merge_series_to_str(series: pd.Series) -> str:
     else:
         assert type(series) == list
         val_array: list = series
+
+    lst = []
+    for item in val_array:
+        if item[0] == "[":
+            """
+            str으로 저장된 list 자료형을 다시 list로 변환하는 함수
+            ** list type을 csv 저장 시 str 타입으로 저장됨.
+            """
+            item = ast.literal_eval(item)
+            lst.extend(item)
+        else:
+            lst.append(item)
+
+    # 리스트 내 ''제거
+    lst = list(filter(None, lst))
+
+    if print_on:
+        print("변환한 도서정보 : ", lst[0])
+
+    return re.sub(r"[^\w\s]", "", " ".join(lst))
+
+
+def merge_dict_to_str(**kwargs) -> str:
+
+    """
+    pd.Series 데이터를 하나의 str으로 통합하는 함수
+
+    """
+    if isinstance(pd.series, pd.Series):
+        val_array = pd.series.values
+    else:
+        assert type(pd.series) == list
+        val_array: list = pd.series
 
     lst = []
     for item in val_array:

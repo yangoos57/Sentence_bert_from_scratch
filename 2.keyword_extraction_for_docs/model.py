@@ -3,7 +3,7 @@ import torch
 from torch.utils.data import DataLoader
 
 
-class modelWithPooling(nn.Module):
+class SentenceBert(nn.Module):
     def __init__(self, model, tokenizer=None, pooling_type="mean") -> None:
         super().__init__()
 
