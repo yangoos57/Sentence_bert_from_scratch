@@ -127,10 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/data
+/data/*
 !/data/bookList
 /datasets
 /model
 /temp
 /test_trainer
 /3. Book_Recommendation/save/garage
+
+.DS_Store
