@@ -1,12 +1,10 @@
 # Sentence Bert를 활용해 연관성 높은 도서 추천하기
 
-- 프로젝트의 목적은 Cross encoder와 Bi Encoder를 활용해 문서 추천 기능을 구현하고 문서 embedding을 활용하는 방법을 학습하는 데 있음.
-
 - 특정 도서와 연관성 높은 도서를 추천하는 시스템을 Sentence bert를 활용해 구현하였음.
 
 - 추천 시스템은 1. 선택한 도서(Query)와 전체 도서(Document Collection)를 Bi Encoder로 비교하여 1차로 후보군을 추출한 다음 2. Cross Encoder를 활용해 추천 순위를 결정하는 방식으로 진행됨.
 
-    <img src='../img/InformationRetrieval.png'>
+    <img src='../img/InformationRetrieval.png' width='500px'>
 
 ## 문서 추천 예시
 

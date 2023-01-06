@@ -10,10 +10,6 @@
 
 <br/>
 
-- [keyBert](https://github.com/MaartenGr/KeyBERT)의 아이디어를 참고했으며 수집한 데이터에 맞게 변형하였음.
-
-<br/>
-
 ## 키워드 추출 예시
 
 > **도서정보 : 그림과 실습으로 배우는 도커 & 쿠버네티스**
@@ -27,3 +23,7 @@
 > **도서정보 : 파이썬 딥러닝 파이토치(Python Deep Learning PyTorch)**
 
 <table border="1" class="dataframe"> <thead> <tr style="text-align: right;"> <th></th> <th>유사도</th> </tr> </thead> <tbody> <tr> <th>autoencoder</th> <td>0.941861</td> </tr> <tr> <th>머신러닝</th> <td>0.937283</td> </tr> <tr> <th>신경망</th> <td>0.933469</td> </tr> <tr> <th>task</th> <td>0.929111</td> </tr> <tr> <th>딥러닝</th> <td>0.922320</td> </tr> <tr> <th>파이썬</th> <td>0.910615</td> </tr> <tr> <th>아나콘다</th> <td>0.886069</td> </tr> <tr> <th>cnn</th> <td>0.871070</td> </tr> <tr> <th>설명</th> <td>0.862466</td> </tr> <tr> <th>인공지능</th> <td>0.857135</td> </tr> <tr> <th>러닝</th> <td>0.856146</td> </tr> <tr> <th>데이터</th> <td>0.855680</td> </tr> <tr> <th>파이토치</th> <td>0.852958</td> </tr> <tr> <th>모델</th> <td>0.847421</td> </tr> <tr> <th>텍스트</th> <td>0.845928</td> </tr> </tbody></table>
+
+## 참고 라이브러리
+
+- [keyBert](https://github.com/MaartenGr/KeyBERT)

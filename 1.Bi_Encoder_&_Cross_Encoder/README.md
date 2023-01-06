@@ -7,3 +7,7 @@
 - Pre-trained Model을 Sentence Bert(=Bi-Encoder)로 학습하는 방법에 대한 설명은 `[tutorial] Bi-Encoder`를 참고
 
 - Bi-Encoder의 비교대상인 Cross-Encoder의 구조와 학습 방법은 `[tutorial] Cross-Encoder`를 참고.
+
+  <img src='../img/Bi_vs_Cross-Encoder.png' alt='Bi_vs_Cross-Encoder' width='400px'>
+
+  <em>사진 출처 : sbert.net</em>
