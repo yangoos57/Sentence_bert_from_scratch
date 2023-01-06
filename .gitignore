@@ -128,9 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /data
-!data/bookList
+!/data/bookList
 /datasets
-test.ipynb
 /model
 /temp
 /test_trainer
