@@ -4,7 +4,7 @@
 
 - 추천 시스템은 1. 선택한 도서(Query)와 전체 도서(Document Collection)를 Bi Encoder로 비교하여 1차로 후보군을 추출한 다음 2. Cross Encoder를 활용해 추천 순위를 결정하는 방식으로 진행됨.
 
-    <img src='../img/InformationRetrieval.png' width='500px'>
+    <img src='../img/InformationRetrieval.png' width='600px'>
 
 ## 문서 추천 예시
 
