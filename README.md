@@ -6,9 +6,9 @@
 
 ## 프로젝트 상세
 
-**1.Bi_encoder & Cross_Encoder**
+**1.Bi_Encoder & Cross_Encoder**
 
-- Bi-encoder와 Cross-Encoder를 코드로 구현하고, 논문을 코드 기반으로 이해할 수 있도록 튜토리얼을 작성하였음.
+- Bi-Encoder와 Cross-Encoder를 코드로 구현하고, 논문을 코드 기반으로 이해할 수 있도록 튜토리얼을 작성하였음.
 
   <br/>
 
@@ -20,7 +20,7 @@
 
 **2.keyword_extraction_for_docs**
 
-- Bi Encoder를 활용해 문서의 핵심 키워드를 추출하는 시스템을 구현하였음.
+- Bi-Encoder를 활용해 문서의 핵심 키워드를 추출하는 시스템을 구현하였음.
 
   <img src='img/key_extraction.png' alt='key_extraction' width='400px'>
 
@@ -28,7 +28,7 @@
 
 **3.Book_Recommendation**
 
-- Cross Encoder와 Bi Encoder를 활용해 특정 도서(Query)와 연관있는 도서를 추천하는 시스템을 구현하였음.
+- Cross-Encoder와 Bi-Encoder를 활용해 특정 도서(Query)와 연관있는 도서를 추천하는 시스템을 구현하였음.
 
   <img src='img/InformationRetrieval.png' width = '600px'>
 
