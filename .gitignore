@@ -134,5 +134,5 @@ dmypy.json
 /temp
 /test_trainer
 /3. Book_Recommendation/save/garage
-
+/save/garage
 .DS_Store
