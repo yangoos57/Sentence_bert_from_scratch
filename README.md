@@ -8,7 +8,7 @@
 
 ## 프로젝트 상세
 
-**Sbert_Model**
+#### sbert_tutorial
 
 - Bi-Encoder와 Cross-Encoder를 코드로 구현하고, 논문을 코드 기반으로 이해할 수 있도록 튜토리얼을 작성하였음.
 
@@ -20,7 +20,7 @@
 
   <br/>
 
-**2.kyword_extraction_using_sbert**
+#### keyword_extraction_using_sbert
 
 - Bi-Encoder를 활용해 도서 핵심 키워드를 추출하는 모델을 구현하였음.
 

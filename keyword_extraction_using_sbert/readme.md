@@ -1,5 +1,8 @@
-### 도서관 장서 데이터에 대한 키워드 추출(컴퓨터 & 데이터 분야 한정)
+## (컴퓨터 & 데이터 분야) 도서 키워드 추출 모델 구현
 
+<br/>
+
+> 키워드 추출관련 메서드는 key_extraction.py에 구현 되어있습니다.
 
 ```python
 from key_extraction import keywordExtractor
@@ -22,17 +25,12 @@ print('')
 scraping_result.head()
 ```
 
-    Some weights of the model checkpoint at monologg/koelectra-base-v3-discriminator were not used when initializing ElectraModel: ['discriminator_predictions.dense_prediction.bias', 'discriminator_predictions.dense.bias', 'discriminator_predictions.dense.weight', 'discriminator_predictions.dense_prediction.weight']
+    Some weights of the model checkpoint at monologg/koelectra-base-v3-discriminator were not used when initializing ElectraModel: ['discriminator_predictions.dense_prediction.weight', 'discriminator_predictions.dense.bias', 'discriminator_predictions.dense.weight', 'discriminator_predictions.dense_prediction.bias']
     - This IS expected if you are initializing ElectraModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
     - This IS NOT expected if you are initializing ElectraModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
 
 
-    도서 데이터 수 :  3979
-    
-
-
-
-
+    도서 데이터 수 :  5895
 
 <div>
 <style scoped>
@@ -47,6 +45,7 @@ scraping_result.head()
     .dataframe thead th {
         text-align: right;
     }
+
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -62,30 +61,6 @@ scraping_result.head()
   <tbody>
     <tr>
       <th>0</th>
-      <td>9791140702787</td>
-      <td>쉽게 시작하는 쿠버네티스</td>
-      <td>[장 쿠버네티스의 등장, 컨테이너 환경으로의 진화, 쿠버네티스를 학습하기 전에 알아...</td>
-      <td>[]</td>
-      <td>[모든 것은 기본에서 시작한다 가볍지만 알차게 배우는 쿠버네티스 쿠버네티스는 컨테이...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>9791163034254</td>
-      <td>깡샘의 안드로이드 앱 프로그래밍 with 코틀린</td>
-      <td>[첫째마당 안드로이드 앱 개발 준비하기, 개발 환경 준비하기, 안드로이드 스튜디오 ...</td>
-      <td>[안드로이드 코틀린 분야 위 도서였던 개정판에 이어 개정 판이 출간되었다, 이번 판...</td>
-      <td>[이 책의 특징 안드로이드 티라미수을 기준으로 내용 및 소스를 업데이트했습니다, 전...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>9788931467604</td>
-      <td>오피스 초보 직장인을 위한 엑셀&amp;파워포인트&amp;워드&amp;윈도우 11</td>
-      <td>[Chapter 워크시트 관리 기술, 엑셀의 시작 화면과 화면 구성 살펴보기, 자주...</td>
-      <td>[모든 버전 에서 사용 가능한 오피스 통합 도서이다, 오피스 까막눈을 위한 가지 오...</td>
-      <td>[PART 엑셀 CHAPTER l 워크시트 관리 기술엑셀은 많은 양의 데이터를 분석...</td>
-    </tr>
-    <tr>
-      <th>3</th>
       <td>9791192932057</td>
       <td>챗GPT</td>
       <td>[AI는 이미 당신보다 똑똑하다, 너무 똑똑한 AI의 출현 위기인가 기회인가, 고도...</td>
@@ -93,38 +68,60 @@ scraping_result.head()
       <td>[]</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>9788966263677</td>
-      <td>CPython 파헤치기</td>
-      <td>[소스 코드에 포함된 것들, 장 개발 환경 구성하기, 편집기와 통합 개발 환경, 비...</td>
-      <td>[파이썬이 인터프리터 레벨에서 작동하는 방식을 이해하면 파이썬의 기능을 최대한 활용...</td>
+      <th>1</th>
+      <td>9788931467604</td>
+      <td>오피스 초보 직장인을 위한 엑셀&amp;파워포인트&amp;워드&amp;윈도우 11</td>
+      <td>[Chapter 워크시트 관리 기술, 엑셀의 시작 화면과 화면 구성 살펴보기, 자주...</td>
+      <td>[모든 버전 에서 사용 가능한 오피스 통합 도서이다, 오피스 까막눈을 위한 가지 오...</td>
+      <td>[PART 엑셀 CHAPTER l 워크시트 관리 기술엑셀은 많은 양의 데이터를 분석...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>9791140702787</td>
+      <td>쉽게 시작하는 쿠버네티스</td>
+      <td>[장 쿠버네티스의 등장, 컨테이너 환경으로의 진화, 쿠버네티스를 학습하기 전에 알아...</td>
       <td>[]</td>
+      <td>[모든 것은 기본에서 시작한다 가볍지만 알차게 배우는 쿠버네티스 쿠버네티스는 컨테이...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>9791140703210</td>
+      <td>세상에서 가장 쉬운 코딩책</td>
+      <td>[프롤로그, 이 책의 특징, 학습 로드맵, 코딩 두뇌 패치하기, 기초편 코딩의 기초...</td>
+      <td>[우리는 디지털과는 떼려야 뗄 수 없는 일상을 살고 있다, 스마트폰으로 업무를 하고...</td>
+      <td>[내용 소개디자이너에서 개발자로 커리어전환한 저자의 코딩 공부와 개발자 취직의 A ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>9791140703029</td>
+      <td>소프트웨어 코딩 대회를 위한 파이썬 문제 풀이 100</td>
+      <td>[문제 글자 출력하기, 문제 숫자 저장하기, 문제 makit 곱하기, 문제 하나 빼...</td>
+      <td>[가지 문제를 풀면서 배우는 파이썬 프로그래밍 기초, 이 책은 아주 간단한 문제부터...</td>
+      <td>[가지 문제를 풀면서 배우는 파이썬 프로그래밍 기초 코딩 대회 입문자를 위한 맞춤형...</td>
     </tr>
   </tbody>
 </table>
 </div>
 
+### 키워드 추출 예시
 
-
-### 키워드 추출
 - 키워드 추출과 관련한 매서드는 `key_extracion.py`를 참고 바랍니다.
-
 
 ```python
 # extract keywords
-docs_keywords = key.extract_keyword(scraping_result.iloc[:5])
+docs_keywords = key.extract_keyword(scraping_result.iloc[[4294]])
 
 # result
 result = pd.DataFrame(docs_keywords)
-print('도서제목 : ', scraping_result.iloc[4].title)
-pd.DataFrame(result.iloc[4].keywords)
+
+print('키워드 추출 예시\n')
+print('도서제목 : ', scraping_result.iloc[4294].title)
+pd.DataFrame(result.keywords.values[0])
 ```
 
-    도서제목 :  CPython 파헤치기
+    키워드 추출 예시
 
-
-
-
+    도서제목 :  파이썬 라이브러리로 배우는 딥러닝 입문과 응용
 
 <div>
 <style scoped>
@@ -139,6 +136,7 @@ pd.DataFrame(result.iloc[4].keywords)
     .dataframe thead th {
         text-align: right;
     }
+
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -150,92 +148,89 @@ pd.DataFrame(result.iloc[4].keywords)
   <tbody>
     <tr>
       <th>0</th>
-      <td>바이트코드</td>
+      <td>오토인코더</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>구조체</td>
+      <td>머신러닝</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>프로파일링</td>
+      <td>뉴럴</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>인터프리터</td>
+      <td>컨볼루션</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>컴파일</td>
+      <td>딥러닝</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>멀티</td>
+      <td>알고리즘</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>딕셔너리</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>api</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>심벌</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>디버거</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>컴파일러</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>가비지</td>
-    </tr>
-    <tr>
-      <th>12</th>
       <td>파이썬</td>
     </tr>
     <tr>
-      <th>13</th>
-      <td>macos</td>
+      <th>7</th>
+      <td>볼츠</td>
     </tr>
     <tr>
-      <th>14</th>
-      <td>벤치마크</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>연결</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>코드</td>
-    </tr>
-    <tr>
-      <th>17</th>
+      <th>8</th>
       <td>소스</td>
     </tr>
     <tr>
+      <th>9</th>
+      <td>라이브러리</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>기울기</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>하기</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>케라스</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>요약</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>게임</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>함수</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>제한</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>인공지능</td>
+    </tr>
+    <tr>
       <th>18</th>
-      <td>dtrace</td>
+      <td>예시</td>
     </tr>
     <tr>
       <th>19</th>
-      <td>내부</td>
+      <td>데이터</td>
     </tr>
   </tbody>
 </table>
 </div>
 
-
-
 ### 추출한 키워드를 활용해 도서 검색 기능 구현(W2V 활용)
-
 
 ```python
 from gensim.models import keyedvectors
@@ -247,7 +242,7 @@ def read_pkl(dir: str) -> list:
         n_list = pickle.load(fp)
         return n_list
 
-# load book keywords 
+# load book keywords
 isbn_list,book_keyword = read_pkl('data/data_for_search')
 
 # load trained w2v model
@@ -256,9 +251,6 @@ w2v_model = keyedvectors.load_word2vec_format('data/w2v')
 pd.DataFrame([isbn_list,book_keyword]).T.head(5)
 
 ```
-
-
-
 
 <div>
 <style scoped>
@@ -273,6 +265,7 @@ pd.DataFrame([isbn_list,book_keyword]).T.head(5)
     .dataframe thead th {
         text-align: right;
     }
+
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -312,24 +305,21 @@ pd.DataFrame([isbn_list,book_keyword]).T.head(5)
 </table>
 </div>
 
-
-
-
 ```python
-import numpy as np  
+import numpy as np
 
 # 키워드 검색
 search = ['자연어', '딥러닝']
 print('사용자 검색 키워드 : ', search)
 print('')
 
-# 키워드 확장 
+# 키워드 확장
 recommand_keyword = w2v_model.most_similar(positive=search, topn=15)
 np_recommand_keyword = np.array(list(map(lambda x: x[0], recommand_keyword)))
 print('도서 검색을 위한 키워드 확장 :', np_recommand_keyword)
 print('')
 
-# 키워드와 유사한 도서 검색 
+# 키워드와 유사한 도서 검색
 user_point = np.isin(book_keyword, np.array(search)).sum(axis=1)
 recommand_point = np.isin(book_keyword, np_recommand_keyword).sum(axis=1)
 
@@ -353,15 +343,11 @@ books_recommandation_result
 ```
 
     사용자 검색 키워드 :  ['자연어', '딥러닝']
-    
+
     도서 검색을 위한 키워드 확장 : ['연어' 'nlp' '머신러닝' '신경망' '인공신경망' 'bert' '파이토치' '트랜스포머' 'cnn' 'transformer'
      '밑바닥' 'rnn' '러닝' 'lenet' 'ann']
-    
+
     키워드에 따른 상위 20개 도서 추천 결과
-
-
-
-
 
 <div>
 <style scoped>
@@ -376,6 +362,7 @@ books_recommandation_result
     .dataframe thead th {
         text-align: right;
     }
+
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -468,5 +455,3 @@ books_recommandation_result
   </tbody>
 </table>
 </div>
-
-
