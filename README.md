@@ -1,6 +1,8 @@
 # Sentence Bert from scratch
 
-- `Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks`논문을 코드로 구현하고, Sentence Bert를 활용해 문서 키워드 추출과 연관성 도서 추천 기능에 대한 2건의 미니프로젝트를 수행하였음.
+- `Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks`논문을 코드로 구현하였음.
+
+- Sentence Bert를 활용해 문서 키워드 추출 모델을 구현하고 이를 활용해 도서 추천 모델을 개발하였음.
 
 <br/>
 
@@ -12,7 +14,7 @@
 
   <br/>
 
-  <img src='img/Bi_vs_Cross-Encoder.png' alt='Bi_vs_Cross-Encoder' width='400px'>
+  <img src='images/Bi_vs_Cross-Encoder.png' alt='Bi_vs_Cross-Encoder' width='400px'>
 
   <em>사진 출처 : sbert.net</em>
 
@@ -22,19 +24,9 @@
 
 - Bi-Encoder를 활용해 문서의 핵심 키워드를 추출하는 시스템을 구현하였음.
 
-  <img src='img/key_extraction.png' alt='key_extraction' width='400px'>
+  <img src='images/key_extraction.png' alt='key_extraction' width='400px'>
 
-  <br/>
-
-**3.Book_Recommendation**
-
-- Cross-Encoder와 Bi-Encoder를 활용해 특정 도서(Query)와 연관있는 도서를 추천하는 시스템을 구현하였음.
-
-  <img src='img/InformationRetrieval.png' width = '600px'>
-
-  <em>사진 출처 : sbert.net</em>
-
-<br />
+- 이렇게 제작한 모델을 활용해 도도모아 프로젝트를 수행하였음.
 
 ## 참고한 라이브러리
 
