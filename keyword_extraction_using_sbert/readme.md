@@ -25,7 +25,7 @@ print('')
 scraping_result.head()
 ```
 
-    Some weights of the model checkpoint at monologg/koelectra-base-v3-discriminator were not used when initializing ElectraModel: ['discriminator_predictions.dense_prediction.weight', 'discriminator_predictions.dense.bias', 'discriminator_predictions.dense.weight', 'discriminator_predictions.dense_prediction.bias']
+    Some weights of the model checkpoint at monologg/koelectra-base-v3-discriminator were not used when initializing ElectraModel: ['discriminator_predictions.dense_prediction.weight', 'discriminator_predictions.dense.weight', 'discriminator_predictions.dense_prediction.bias', 'discriminator_predictions.dense.bias']
     - This IS expected if you are initializing ElectraModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
     - This IS NOT expected if you are initializing ElectraModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
 
@@ -103,9 +103,7 @@ scraping_result.head()
 </table>
 </div>
 
-### 키워드 추출 예시
-
-- 키워드 추출과 관련한 매서드는 `key_extracion.py`를 참고 바랍니다.
+## 키워드 추출 예시
 
 ```python
 # extract keywords
@@ -230,7 +228,137 @@ pd.DataFrame(result.keywords.values[0])
 </table>
 </div>
 
-### 추출한 키워드를 활용해 도서 검색 기능 구현(W2V 활용)
+## 키워드 추출 상세
+
+### 데이터 전처리
+
+```python
+min_count = 3
+min_length = 2
+doc = scraping_result.iloc[4294]
+
+print(f'도서 정보 \n \n {doc} \n \n')
+
+
+raw_data = key._convert_series_to_list(doc)
+print(f'1. 도서 정보를 list로 통합 -> {len(raw_data)} 개 단어')
+print(f'\n \n {raw_data[:10]}.... \n \n')
+
+keyword_list = key._extract_keywords(raw_data)
+print(f'2. 형태소 분석기를 활용해 명사만을 추출 -> {len(keyword_list)} 개 단어')
+print(f'\n \n {keyword_list[:10]}.... \n \n')
+
+translated_keyword_list = key._map_english_to_korean(keyword_list)
+print(f'3. 영단어를 한글로 변환(ex python -> 파이썬) -> {len(translated_keyword_list)} 개 단어')
+print(f'\n \n {translated_keyword_list[:10]}.... \n \n')
+
+refined_keyword_list = key._eliminate_min_count_words(translated_keyword_list, min_count)
+print(f'4. 최소 3번이상 반복 사용되는 단어만 추출 -> {len(refined_keyword_list)} 개 단어')
+print(f'\n \n {refined_keyword_list[:10]}.... \n \n')
+
+result = list(filter(lambda x: len(x) >= min_length, refined_keyword_list))
+print(f'5. 단어 길이가 최소 한개 이상인 단어만 추출 -> {len(result)} 개 단어')
+print(f'\n \n {result[:10]}.... \n \n')
+```
+
+    도서 정보
+
+     isbn13                                           9791188621354
+    title                                파이썬 라이브러리로 배우는 딥러닝 입문과 응용
+    toc          [머신러닝이란, 다양한 머신러닝 접근법, 지도학습, 비지도학습, 강화학습, 머신러닝...
+    intro                                                       []
+    publisher    [컴퓨터 비전 인공지능 음성 및 데이터 분석을 위한 차세대 핵심 테크닉 실제 적용 ...
+    Name: 4294, dtype: object
+
+
+    1. 도서 정보를 list로 통합 -> 610 개 단어
+
+
+     ['파이썬', '라이브러리로', '배우는', '딥러닝', '입문과', '응용', '머신러닝이란', '다양한', '머신러닝', '접근법']....
+
+
+    2. 형태소 분석기를 활용해 명사만을 추출 -> 547 개 단어
+
+
+     ['파이썬', '라이브러리', '딥러닝', '입문', '응용', '머신러닝', '다양', '머신러닝', '접근법', '지도']....
+
+
+    3. 영단어를 한글로 변환(ex python -> 파이썬) -> 547 개 단어
+
+
+     ['파이썬', '라이브러리', '딥러닝', '입문', '응용', '머신러닝', '다양', '머신러닝', '접근법', '지도']....
+
+
+    4. 최소 3번이상 반복 사용되는 단어만 추출 -> 55 개 단어
+
+
+     ['파이썬', '라이브러리', '딥러닝', '머신러닝', '다양', '학습', '기법', '알고리즘', '실생활', '적용']....
+
+
+    5. 단어 길이가 최소 한개 이상인 단어만 추출 -> 50 개 단어
+
+
+     ['파이썬', '라이브러리', '딥러닝', '머신러닝', '다양', '학습', '기법', '알고리즘', '실생활', '적용']....
+
+
+### 임베딩을 활용한 키워드 추출
+
+```python
+from pprint import pprint
+doc = scraping_result.iloc[4294]
+
+print(f'-- 도서제목 -- \n {doc.title} \n \n')
+
+keyword_list = key.extract_keyword_list(doc)
+print(f'도서에 대한 키워드 후보 : {len(result)} 개 단어')
+print(f'{result[:10]}.... \n \n')
+
+
+keyword_embedding = key.create_keyword_embedding(doc)
+doc_embedding = key.create_doc_embedding(doc)
+
+co_sim_score =key._calc_cosine_similarity(doc_embedding, keyword_embedding).flatten()
+
+keyword = dict(zip(keyword_list, co_sim_score))
+sorted_keyword = sorted(keyword.items(), key=lambda k: k[1], reverse=True)
+
+print(f'-- 키워드 추출 결과--')
+pprint(sorted_keyword[:20])
+```
+
+    -- 도서제목 --
+     파이썬 라이브러리로 배우는 딥러닝 입문과 응용
+
+
+    도서에 대한 키워드 후보 : 50 개 단어
+    ['파이썬', '라이브러리', '딥러닝', '머신러닝', '다양', '학습', '기법', '알고리즘', '실생활', '적용']....
+
+
+    -- 키워드 추출 결과--
+    [('오토인코더', 0.95437026),
+     ('머신러닝', 0.94073564),
+     ('뉴럴', 0.92509925),
+     ('컨볼루션', 0.9216925),
+     ('딥러닝', 0.9182806),
+     ('알고리즘', 0.9138457),
+     ('파이썬', 0.91044587),
+     ('볼츠', 0.90905386),
+     ('소스', 0.9054553),
+     ('라이브러리', 0.903215),
+     ('기울기', 0.8987693),
+     ('하기', 0.89817643),
+     ('케라스', 0.8977781),
+     ('요약', 0.89715064),
+     ('게임', 0.88808674),
+     ('함수', 0.88727576),
+     ('제한', 0.8852492),
+     ('인공지능', 0.88420147),
+     ('예시', 0.88184154),
+     ('데이터', 0.8805901)]
+
+## 추출한 키워드를 활용해 도서 검색 기능 구현(W2V 활용)
+
+### 추출한 도서 키워드 목록 및 학습된 W2V 모델 불러오기
 
 ```python
 from gensim.models import keyedvectors
@@ -305,6 +433,8 @@ pd.DataFrame([isbn_list,book_keyword]).T.head(5)
 </table>
 </div>
 
+### 검색 서비스 구현
+
 ```python
 import numpy as np
 
@@ -316,7 +446,7 @@ print('')
 # 키워드 확장
 recommand_keyword = w2v_model.most_similar(positive=search, topn=15)
 np_recommand_keyword = np.array(list(map(lambda x: x[0], recommand_keyword)))
-print('도서 검색을 위한 키워드 확장 :', np_recommand_keyword)
+print('W2V을 활용한 키워드 확장 :', np_recommand_keyword)
 print('')
 
 # 키워드와 유사한 도서 검색
@@ -344,7 +474,7 @@ books_recommandation_result
 
     사용자 검색 키워드 :  ['자연어', '딥러닝']
 
-    도서 검색을 위한 키워드 확장 : ['연어' 'nlp' '머신러닝' '신경망' '인공신경망' 'bert' '파이토치' '트랜스포머' 'cnn' 'transformer'
+    W2V을 활용한 키워드 확장 : ['연어' 'nlp' '머신러닝' '신경망' '인공신경망' 'bert' '파이토치' '트랜스포머' 'cnn' 'transformer'
      '밑바닥' 'rnn' '러닝' 'lenet' 'ann']
 
     키워드에 따른 상위 20개 도서 추천 결과
