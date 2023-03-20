@@ -1,6 +1,8 @@
 # Bi Encoder 구조와 Cross Encoder 구조 소개
 
-> [Sentence Bert 구조 소개 및 코드 구현](https://yangoos57.github.io/blog/DeepLearning/paper/Sbert/Sbert/) 포스트에 대한 Repo 입니다.
+
+> ### [Sentence Bert 구조 소개 및 코드 구현](https://yangoos57.github.io/blog/DeepLearning/paper/Sbert/Sbert/) 포스트에 대한 Repo 입니다.
+
 
 ### 소개
 
