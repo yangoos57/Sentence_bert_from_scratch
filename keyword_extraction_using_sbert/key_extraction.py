@@ -12,13 +12,12 @@ import torch
 
 class keywordExtractor:
     """
-    Encoder 기반 모델을 활용해 모델의 키워드를 추출하는 클래스입니다.
+    Encoder 기반 모델을 활용해 문서 정보의 핵심 키워드를 추출하는 클래스입니다.
 
     Parameter
     --------
     - model: Encoder 기반 언어모델을 사용합니다. 기본 값으로 "monologg/koelectra-base-v3-discriminator"를 사용하고 있습니다.
-    tokenizer: 해당 모델에 맞는 토크나이저를 사용합니다.
-
+    - tokenizer: 해당 모델에 맞는 토크나이저를 사용합니다.
     - dir: 영어 단어 -> 한국어 단어 또는 오탈자 -> 정상 단어로 변환하기 위해 사용하는 파일을 불러옵니다.
          ex) python -> 파이썬 || 파이선 -> 파이썬
 

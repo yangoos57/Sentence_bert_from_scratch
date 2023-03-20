@@ -25,7 +25,7 @@ print('')
 scraping_result.head()
 ```
 
-    Some weights of the model checkpoint at monologg/koelectra-base-v3-discriminator were not used when initializing ElectraModel: ['discriminator_predictions.dense_prediction.weight', 'discriminator_predictions.dense.weight', 'discriminator_predictions.dense_prediction.bias', 'discriminator_predictions.dense.bias']
+    Some weights of the model checkpoint at monologg/koelectra-base-v3-discriminator were not used when initializing ElectraModel: ['discriminator_predictions.dense_prediction.weight', 'discriminator_predictions.dense_prediction.bias', 'discriminator_predictions.dense.bias', 'discriminator_predictions.dense.weight']
     - This IS expected if you are initializing ElectraModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
     - This IS NOT expected if you are initializing ElectraModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
 
@@ -230,7 +230,7 @@ pd.DataFrame(result.keywords.values[0])
 
 ## 키워드 추출 상세
 
-### 데이터 전처리
+### 1. 데이터 전처리
 
 ```python
 min_count = 3
@@ -300,8 +300,7 @@ print(f'\n \n {result[:10]}.... \n \n')
 
      ['파이썬', '라이브러리', '딥러닝', '머신러닝', '다양', '학습', '기법', '알고리즘', '실생활', '적용']....
 
-
-### 임베딩을 활용한 키워드 추출
+### 2. 키워드 임베딩 및 문서 임베딩 생성
 
 ```python
 from pprint import pprint
@@ -316,14 +315,6 @@ print(f'{result[:10]}.... \n \n')
 
 keyword_embedding = key.create_keyword_embedding(doc)
 doc_embedding = key.create_doc_embedding(doc)
-
-co_sim_score =key._calc_cosine_similarity(doc_embedding, keyword_embedding).flatten()
-
-keyword = dict(zip(keyword_list, co_sim_score))
-sorted_keyword = sorted(keyword.items(), key=lambda k: k[1], reverse=True)
-
-print(f'-- 키워드 추출 결과--')
-pprint(sorted_keyword[:20])
 ```
 
     -- 도서제목 --
@@ -333,8 +324,19 @@ pprint(sorted_keyword[:20])
     도서에 대한 키워드 후보 : 50 개 단어
     ['파이썬', '라이브러리', '딥러닝', '머신러닝', '다양', '학습', '기법', '알고리즘', '실생활', '적용']....
 
+### 3. 코사인 유사도를 활용에 문서와 연관성 높은 키워드 추출
 
-    -- 키워드 추출 결과--
+```python
+co_sim_score =key._calc_cosine_similarity(doc_embedding, keyword_embedding).flatten()
+
+keyword = dict(zip(keyword_list, co_sim_score))
+sorted_keyword = sorted(keyword.items(), key=lambda k: k[1], reverse=True)
+
+print(f'-- 키워드 추출 결과(20개 요약)--')
+pprint(sorted_keyword[:20])
+```
+
+    -- 키워드 추출 결과(20개 요약)--
     [('오토인코더', 0.95437026),
      ('머신러닝', 0.94073564),
      ('뉴럴', 0.92509925),
