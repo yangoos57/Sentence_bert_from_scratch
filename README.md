@@ -4,7 +4,7 @@
 
 - Sbert를 기반으로 도서 키워드 추출 모델을 제작하였고, 이를 활용해 [도서관 컴퓨터 & 데이터 분야 장서를 추천하는 서비스](https://github.com/yangoos57/dodomoa)를 개발하였습니다.
 
-> Sentence Bert에 대한 상세한 정리는 [Sentence Bert 구조 소개 및 코드 구현](https://yangoos57.github.io/blog/DeepLearning/paper/Sbert/Sbert/)을 참고바랍니다.
+> Sentence Bert에 대한 상세한 정리는 [Sentence Bert 구조 소개 및 코드 구현](https://yangoos57.github.io/blog/DeepLearning/paper/Sbert/Sbert)을 참고바랍니다.
 
 <br/>
 
